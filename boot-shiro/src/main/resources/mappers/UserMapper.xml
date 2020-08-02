@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanggs.shiro.mappers.UserMapper">
+    <select id="findByUserName" resultMap="userMap">
+        SELECT
+            t1.*,
+            t3.*,
+            t5.*
+
+        FROM
+            `user` AS t1
+            INNER JOIN user_role AS t2 ON t1.uid = t2.uid
+            INNER JOIN role AS t3 ON t2.rid = t3.rid
+            INNER JOIN permission_role AS t4 ON t3.rid = t4.rid
+            INNER JOIN permission AS t5 ON t4.pid = t5.pid
+            AND t1.username = #{userName}
+    </select>
+    <resultMap id="userMap" type="com.wanggs.shiro.model.User">
+        <id column="uid" property="uid" />
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <collection property="roles" ofType="com.wanggs.shiro.model.Role">
+            <id property="rid" column="rid" />
+            <result property="rname" column="rname" />
+            <collection property="permissions" ofType="com.wanggs.shiro.model.Permission">
+                <id property="pid" column="pid" />
+                <result property="name" column="name"/>
+                <result property="url" column="url" />
+            </collection>
+        </collection>
+
+    </resultMap>
+
+</mapper>
