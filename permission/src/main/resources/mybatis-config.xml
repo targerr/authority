@@ -5,6 +5,8 @@
 <configuration>
 
     <settings>
+        <!--打印日志可以看执行的sql语句-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
         <setting name="safeRowBoundsEnabled" value="true"/>
         <setting name="cacheEnabled" value="false" />
         <setting name="useGeneratedKeys" value="true" />

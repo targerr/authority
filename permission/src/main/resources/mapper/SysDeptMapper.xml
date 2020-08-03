@@ -21,6 +21,18 @@
     from sys_dept
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="countByNameAndParentId" resultType="java.lang.Integer">
+    SELECT count(1)
+    FROM sys_dept
+    WHERE name = #{name}
+    <if test="parentId != null">
+      AND parent_id = #{parentId}
+    </if>
+    <if test="id != null">
+      AND id != #{id}
+    </if>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_dept
     where id = #{id,jdbcType=INTEGER}
