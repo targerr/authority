@@ -19,8 +19,13 @@ public class LevelUtil {
     public static String calculateLevel(String parentLevel, int parentId) {
         if (StringUtils.isBlank(parentLevel)) {
             return ROOT;
+        } else {
+            return StringUtils.join(parentLevel, SEPARATOR, parentId);
         }
-        return StringUtils.join(parentLevel, SEPARATOR, parentId);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(calculateLevel("0",1));
     }
 
 }

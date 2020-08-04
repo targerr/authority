@@ -53,5 +53,8 @@
     <bean id="wall-filter" class="com.alibaba.druid.wall.WallFilter">
         <property name="dbType" value="mysql" />
     </bean>
-
+    <!--解决mybatis与druid集成后，wallFilter sql注入异常-->
+    <bean id="wall-config" class="com.alibaba.druid.wall.WallConfig">
+        <property name="multiStatementAllow" value="true"/>
+    </bean>
 </beans>
