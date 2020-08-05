@@ -2,6 +2,9 @@ package com.mmall.service;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.SecureUtil;
+import com.google.common.base.Preconditions;
+import com.mmall.beans.PageQuery;
+import com.mmall.beans.PageResult;
 import com.mmall.dao.SysDeptMapper;
 import com.mmall.dao.SysUserMapper;
 import com.mmall.exception.ParamException;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Wgs
@@ -58,6 +62,28 @@ public class SysUserService {
         sysUserMapper.insertSelective(user);
     }
 
+    public void update(UserParam param) {
+        BeanValidator.check(param);
+        if (checkPhoneExist(param)) {
+            throw new ParamException("电话已被占用");
+        }
+        if (checkEmailExist(param)) {
+            throw new ParamException("邮箱已被占用");
+        }
+        if (checkDeptExist(param)) {
+            throw new ParamException("部门不存在,无法使用");
+        }
+
+        SysUser before = sysUserMapper.selectByPrimaryKey(param.getId());
+        Preconditions.checkNotNull(before, "待更新的用户不存在");
+        SysUser after = SysUser.builder().id(param.getId()).username(param.getUsername()).telephone(param.getTelephone()).mail(param.getMail())
+                .deptId(param.getDeptId()).status(param.getStatus()).remark(param.getRemark()).build();
+        after.setOperator("admin");
+        after.setOperateIp("127.0.0.10.0.1");
+        after.setOperateTime(new Date());
+        sysUserMapper.updateByPrimaryKeySelective(after);
+    }
+
     private boolean checkDeptExist(UserParam userParam) {
         SysDept sysDept = sysDeptMapper.selectByPrimaryKey(userParam.getDeptId());
         return sysDept == null;
@@ -69,5 +95,19 @@ public class SysUserService {
 
     private boolean checkPhoneExist(UserParam param) {
         return sysUserMapper.countByTelePhone(param.getId(), param.getTelephone()) > 0;
+    }
+
+    public PageResult<SysUser> getPageByDeptId(int deptId, PageQuery page) {
+        BeanValidator.check(page);
+        int count = sysUserMapper.countByDeptId(deptId);
+        if (count > 0) {
+            List<SysUser> list = sysUserMapper.getPageByDeptId(deptId, page);
+            return PageResult.<SysUser>builder().total(count).data(list).build();
+        }
+        return PageResult.<SysUser>builder().build();
+    }
+
+    public SysUser findByUserName(String username) {
+       return sysUserMapper.findByUserName(username);
     }
 }
