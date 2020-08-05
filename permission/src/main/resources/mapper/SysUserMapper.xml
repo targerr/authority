@@ -24,6 +24,24 @@
     from sys_user
     where id = #{id,jdbcType=INTEGER}
   </select>
+    <select id="countByTelePhone" resultType="java.lang.Integer">
+      select
+     count(id)
+      from sys_user
+      where telephone = #{telephone}
+      <if test="id != null and id !=''">
+       and  id = #{id,jdbcType=INTEGER}
+      </if>
+    </select>
+  <select id="countByMail" resultType="java.lang.Integer">
+    select
+    count(id)
+    from sys_user
+    where mail = #{mail}
+    <if test="id != null and id !=''">
+      and  id = #{id,jdbcType=INTEGER}
+    </if>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_user
     where id = #{id,jdbcType=INTEGER}

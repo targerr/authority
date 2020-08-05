@@ -11,12 +11,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * @author Wgs
@@ -27,13 +24,14 @@ import java.util.Set;
 public class SysTreeService {
     @Resource
     private SysDeptMapper sysDeptMapper;
+
     public List<DeptLevelDto> deptTree() {
         List<SysDept> sysDepts = sysDeptMapper.getAllDept();
-        if (CollectionUtils.isEmpty(sysDepts)){
+        if (CollectionUtils.isEmpty(sysDepts)) {
             return null;
         }
         List<DeptLevelDto> deptLevelDtoList = Lists.newArrayList();
-        for (SysDept sysDept : sysDepts){
+        for (SysDept sysDept : sysDepts) {
             deptLevelDtoList.add(DeptLevelDto.adapt(sysDept));
         }
         return deptListToTree(deptLevelDtoList);
@@ -87,55 +85,11 @@ public class SysTreeService {
         }
     }
 
-
     public Comparator<DeptLevelDto> deptSeqComparator = new Comparator<DeptLevelDto>() {
         @Override
         public int compare(DeptLevelDto o1, DeptLevelDto o2) {
             return o1.getSeq() - o2.getSeq();
         }
     };
-
-    public static void main(String[] args) {
-        String str = "abcdad1341";
-
-        System.out.println(str.indexOf("d"));
-//        Multimap<String,String> multimap = ArrayListMultimap.create();
-//
-//        multimap.put("lower", "a");
-//        multimap.put("lower", "b");
-//        multimap.put("lower", "c");
-//
-//        multimap.put("upper", "A");
-//        multimap.put("upper", "B");
-//
-//        List<String> lowerList = (List<String>)multimap.get("lower");
-//        //输出key为lower的list集合
-//        System.out.println("输出key为lower的list集合=========");
-//        System.out.println(lowerList.toString());
-//        lowerList.add("f");
-//        System.out.println(lowerList.toString());
-//
-//
-//        Map<String, Collection<String>> map = multimap.asMap();
-//        System.out.println("把Multimap转为一个map============");
-//        for (Map.Entry<String,  Collection<String>> entry : map.entrySet()) {
-//            String key = entry.getKey();
-//            Collection<String> value =  multimap.get(key);
-//            System.out.println(key + ":" + value);
-//        }
-//
-//        System.out.println("获得所有Multimap的key值==========");
-//        Set<String> keys =  multimap.keySet();
-//        for(String key:keys){
-//            System.out.println(key);
-//        }
-//
-//        System.out.println("输出Multimap所有的value值========");
-//        Collection<String> values = multimap.values();
-//        System.out.println(values);
-//
-
-
-    }
 
 }
