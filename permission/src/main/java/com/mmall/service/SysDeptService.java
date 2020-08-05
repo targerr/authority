@@ -12,6 +12,7 @@ import com.mmall.util.LevelUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -94,8 +95,8 @@ public class SysDeptService {
                         dept.setLevel(level);
                     }
                 }
-               // sysDeptMapper.batchUpdateLevel(deptList);
-                deptList.forEach(e->{
+                // sysDeptMapper.batchUpdateLevel(deptList);
+                deptList.forEach(e -> {
                     sysDeptMapper.updateByPrimaryKey(e);
                 });
             }
@@ -103,4 +104,17 @@ public class SysDeptService {
         sysDeptMapper.updateByPrimaryKey(after);
     }
 
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public void delete(Integer id) {
+        // 判断是否存在
+        SysDept sysDept = sysDeptMapper.selectByPrimaryKey(id);
+        Preconditions.checkNotNull(sysDept, "删除部门不存在");
+        // 判断是否存在子部门
+        if (sysDeptMapper.countByParentId(id) > 0) {
+            throw new ParamException("当前部门下面有子部门，无法删除");
+        }
+        //TODO 判断是否存在账号
+
+        sysDeptMapper.deleteByPrimaryKey(id);
+    }
 }
