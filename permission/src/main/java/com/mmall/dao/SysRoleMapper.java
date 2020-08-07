@@ -19,4 +19,8 @@ public interface SysRoleMapper {
     int updateByPrimaryKey(SysRole record);
 
     List<SysRole> getByIdList(@Param("roleIdList") List<Integer> roleIdList);
+
+    int checkExist(@Param("id") Integer id,@Param("name") String name);
+
+    List<SysRole> findAll();
 }

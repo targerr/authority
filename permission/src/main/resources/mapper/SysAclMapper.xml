@@ -52,6 +52,31 @@
         ORDER BY seq ASC, name ASC
         limit #{page.offset}, #{page.pageSize}
     </select>
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM sys_acl
+    </select>
+
+    <select id="findByUserId" resultType="com.mmall.model.SysAcl">
+        SELECT
+            sa.*
+        FROM
+            sys_acl AS sa
+            INNER JOIN sys_role_acl AS sra ON sa.id = sra.acl_id
+            INNER JOIN sys_role_user AS sru ON sra.role_id = sru.role_id
+            INNER JOIN sys_user AS su ON sru.user_id = su.id
+        WHERE
+            su.id = #{userId}
+    </select>
+    <select id="getByIdList" parameterType="map" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM sys_acl
+        WHERE id IN
+        <foreach collection="userAclIdList" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sys_acl

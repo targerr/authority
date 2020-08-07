@@ -28,7 +28,18 @@
       #{id}
     </foreach>
   </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <select id="checkExist" resultType="java.lang.Integer">
+    SELECT count(id)
+    FROM sys_role where name = #{name}
+    <if test="id != null" >
+      and  id != #{id}
+    </if>
+  </select>
+  <select id="findAll" resultType="com.mmall.model.SysRole">
+    SELECT <include refid="Base_Column_List" />
+    FROM sys_role
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_role
     where id = #{id,jdbcType=INTEGER}
   </delete>

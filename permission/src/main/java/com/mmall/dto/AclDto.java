@@ -1,10 +1,13 @@
 package com.mmall.dto;
 
+import com.google.common.collect.Lists;
 import com.mmall.model.SysAcl;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.beans.BeanUtils;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,5 +24,11 @@ public class AclDto extends SysAcl {
         AclDto dto = new AclDto();
         BeanUtils.copyProperties(acl, dto);
         return dto;
+    }
+
+    public static List<AclDto> acl2AclDto(List<SysAcl> aclList) {
+        List<AclDto> aclDtos = Lists.newArrayList();
+        aclList.forEach(e -> aclDtos.add(adapt(e)));
+        return aclDtos;
     }
 }
