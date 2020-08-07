@@ -32,10 +32,21 @@
     from sys_role_user
     where user_id = #{userId}
   </select>
+    <select id="getUserIdListByRoleId" resultType="java.lang.Integer">
+    select
+     user_id
+    from sys_role_user
+    where role_id = #{roleId}
+
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sys_role_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
+    <delete id="delByRoleId">
+         delete from sys_role_user
+    where role_id = #{roleId}
+    </delete>
     <insert id="insert" parameterType="com.mmall.model.SysRoleUser">
     insert into sys_role_user (id, role_id, user_id, 
       operator, operate_time, operate_ip

@@ -21,4 +21,8 @@ public interface SysRoleUserMapper {
     List<Integer> getUserIdListByRoleIdList(@Param("roleIdList") List<Integer> roleIdList);
 
     List<Integer> getRoleIdListByUserId(@Param("userId") int userId);
+
+    void delByRoleId(@Param("roleId") int roleId);
+
+    List<Integer> getUserIdListByRoleId(@Param("roleId") int roleId);
 }

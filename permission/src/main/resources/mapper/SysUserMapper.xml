@@ -69,7 +69,11 @@
       #{id}
     </foreach>
   </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <select id="findAll" resultType="com.mmall.model.SysUser">
+    SELECT <include refid="Base_Column_List" />
+    FROM sys_user
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_user
     where id = #{id,jdbcType=INTEGER}
   </delete>

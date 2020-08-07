@@ -110,4 +110,8 @@ public class SysUserService {
     public SysUser findByUserName(String username) {
        return sysUserMapper.findByUserName(username);
     }
+
+    public List<SysUser> getAll() {
+        return sysUserMapper.findAll();
+    }
 }

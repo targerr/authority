@@ -42,4 +42,6 @@ public interface SysUserMapper {
     SysUser findByUserName(@Param("username")String username);
 
     List<SysUser> getByIdList(@Param("idList") List<Integer> idList);
+
+    List<SysUser> findAll();
 }
