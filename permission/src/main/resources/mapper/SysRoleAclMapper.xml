@@ -18,7 +18,12 @@
     from sys_role_acl
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <select id="getRoleIdListByAclId" parameterType="int" resultType="int">
+    SELECT role_id
+    FROM sys_role_acl
+    WHERE acl_id = #{aclId}
+  </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_role_acl
     where id = #{id,jdbcType=INTEGER}
   </delete>

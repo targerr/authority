@@ -18,7 +18,15 @@
     from sys_role_user
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <select id="getUserIdListByRoleIdList" parameterType="map" resultType="int" >
+    SELECT user_id
+    FROM sys_role_user
+    WHERE role_id IN
+    <foreach collection="roleIdList" item="roleId" open="(" close=")" separator=",">
+      #{roleId}
+    </foreach>
+  </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_role_user
     where id = #{id,jdbcType=INTEGER}
   </delete>

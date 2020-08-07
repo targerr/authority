@@ -20,7 +20,15 @@
     from sys_role
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <select id="getByIdList" parameterType="map" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM sys_role
+    WHERE id IN
+    <foreach collection="roleIdList" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_role
     where id = #{id,jdbcType=INTEGER}
   </delete>
