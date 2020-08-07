@@ -1,6 +1,7 @@
 package com.mmall.dao;
 
 import com.mmall.model.SysAcl;
+import org.apache.ibatis.annotations.Param;
 
 public interface SysAclMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +15,6 @@ public interface SysAclMapper {
     int updateByPrimaryKeySelective(SysAcl record);
 
     int updateByPrimaryKey(SysAcl record);
+
+    int countByNameAndParentId(@Param("parentId") Integer parentId,@Param("name") String name,@Param("id") Integer id);
 }

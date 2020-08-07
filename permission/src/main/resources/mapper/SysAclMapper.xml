@@ -25,7 +25,13 @@
     from sys_acl
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="countByNameAndParentId" resultType="java.lang.Integer">
+      select
+      count(id)
+      from sys_acl
+      where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_acl
     where id = #{id,jdbcType=INTEGER}
   </delete>

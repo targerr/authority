@@ -72,6 +72,7 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+<!--
     <filter>
         <filter-name>loginFilter</filter-name>
         <filter-class>com.mmall.filter.LoginFilter</filter-class>
@@ -81,6 +82,7 @@
         <url-pattern>/sys/*</url-pattern>
         <url-pattern>/admin/*</url-pattern>
     </filter-mapping>
+-->
 
     <!--<filter>-->
         <!--<filter-name>aclControlFilter</filter-name>-->
