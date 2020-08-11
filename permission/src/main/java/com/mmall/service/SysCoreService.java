@@ -11,7 +11,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Wgs
@@ -69,5 +71,37 @@ public class SysCoreService {
             return Lists.newArrayList();
         }
         return sysAclMapper.getByIdList(aclIdList);
+    }
+
+    public boolean hasUrlAcl(String url) {
+        if (isSuperAdmin()){
+            return true;
+        }
+        // 获取url权限
+        List<SysAcl> sysAclList = sysAclMapper.getByUrl(url);
+        if (CollectionUtils.isEmpty(sysAclList)) {
+            return true;
+        }
+        // 获取当前用户权限
+        List<SysAcl> sysAcls = getCurrentUserAclList();
+        List<Integer> sysAclIdList = sysAcls.stream().map(SysAcl::getId).collect(Collectors.toList());
+        // 规则：只要有一个权限点有权限，那么我们就认为有访问权限
+        boolean hasValidAcl = false;
+        for (SysAcl sysAcl : sysAclList){
+            // 判断一个用户是否具有某个权限点的访问权限
+            // 权限点无效
+            if (sysAcl == null || sysAcl.getStatus() != 1){
+                continue;
+            }
+            hasValidAcl = true;
+            if (sysAclIdList.contains(sysAcl.getId())){
+                return true;
+            }
+        }
+        if (!hasValidAcl){
+            return true;
+        }
+
+        return false;
     }
 }

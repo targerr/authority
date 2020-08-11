@@ -76,6 +76,11 @@
             #{id}
         </foreach>
     </select>
+    <select id="getByUrl" resultType="com.mmall.model.SysAcl">
+        SELECT <include refid="Base_Column_List" />
+        FROM sys_acl
+        WHERE url = #{url}
+    </select>
 
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
